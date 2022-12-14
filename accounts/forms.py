@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 class RegisterForm(forms.Form):
     full_name = forms.CharField(max_length=100)
     email = forms.EmailField()
-    password = forms.CharField(min_length=8, max_length=100, widget=forms.PasswordInput)
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput)
     password2 = forms.CharField(label='confirm password', max_length=100, widget=forms.PasswordInput)
 
     def clean_email(self):
