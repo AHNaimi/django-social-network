@@ -1,6 +1,10 @@
 <ul style="padding:7px;">
-        <li style="display:inline;padding:10px;"> <a href="#">home </a> </li>
-        <li style="display:inline;padding:10px;"> <a href="#">register </a> </li>
-        <li style="display:inline;padding:10px;"> <a href="#">login </a> </li>
-<hr>
+        <li style="display:inline;padding:10px;"> <a href="{% url 'home:homepage' %}">home </a> </li>
+        {% if request.user.is_authenticated %}
+        <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:logout' %}">logout </a> </li>
+        {% else %}
+        <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:registerpage' %}">register </a> </li>
+        <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:loginpage' %}">login </a> </li>
+        {% endif %}
+        <hr>
 </ul>
