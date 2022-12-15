@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form style="padding:20px;" action="" method="post" novalidate>
+        {% csrf_token %}
+        title : {{form.title}}
+        <br>
+        <br>
+        body : {{form.body}}
+        <br>
+        <input style="margin:20px;padding:5px;" type="submit" value="create">
+    </form>
+</body>
+</html>
+
+
+
+
+
+

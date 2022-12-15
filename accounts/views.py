@@ -54,3 +54,5 @@ class LoginView(View):
                 login(request, user)
                 return redirect('home:homepage')
             return render(request, 'accounts/login.html', {'form': post_form})
+
+

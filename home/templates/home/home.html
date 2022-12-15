@@ -1,4 +1,17 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>homepage</h1>
+<h1>POSTS</h1>
+<p>for making your post you have to <a href="{% url 'accounts:loginpage' %}">login</a></p>
+<hr>
+{% for x in post %}
+<div style="padding:10px;border-color:black;">
+  publisher :  {{x.user}}<br>
+  title :   {{x.title}}<br>
+  body:  {{x.body|truncatewords:5}}<br>
+   time of publish: {{x.created_time}}<br>
+    <a href="{{ x.get_absolute_url }}"> see complete post </a>
+</div>
+<hr>
+{% endfor %}
+
 {% endblock %}

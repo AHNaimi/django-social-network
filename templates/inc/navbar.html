@@ -1,7 +1,13 @@
+{% if messages %}
+  {% for msg in messages %}
+    <p style="margin:20px;">{{msg}}</p>
+  {% endfor %}
+{% endif %}
 <ul style="padding:7px;">
         <li style="display:inline;padding:10px;"> <a href="{% url 'home:homepage' %}">home </a> </li>
         {% if request.user.is_authenticated %}
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:logout' %}">logout </a> </li>
+        <li style="display:inline;padding:10px;"> <a href="{% url 'home:postcreatepage' %}">make post</a> </li>
         {% else %}
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:registerpage' %}">register </a> </li>
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:loginpage' %}">login </a> </li>

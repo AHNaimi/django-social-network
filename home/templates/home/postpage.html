@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+<div style="padding:10px;border-color:black;">
+  publisher :  {{post.user}}<br>
+  title :   {{post.title}}<br>
+  body:  {{post.body}}<br>
+  <hr>
+   time of publish: {{post.created_time}}<br>
+</div>
+{% endblock body %}
