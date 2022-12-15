@@ -7,4 +7,26 @@
   <hr>
    time of publish: {{post.created_time}}<br>
 </div>
+<h2>comments</h2>
+{% for x in comment %}
+<div style="padding:10px;border-color:black;">
+{{x.user}}
+{{x.body}}
+</div>
+{% endfor %}
+{% if request.user.is_authenticated %}
+<div style="background-color:grey;">
+<form style="padding:20px;" action="" method="post">
+    <p>make your comment</p>
+    {% csrf_token %}
+    <br>
+    {{form.body}}
+    <br>
+    <input style="margin:20px;padding:5px;" type="submit" value="create">
+</form>
+</div>
+{% else %}
+<br>
+you have to login for make your comment
+{% endif %}
 {% endblock body %}

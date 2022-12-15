@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from home.models import Post
-from home.forms import PostForm
+from home.models import Post, Comment
+from home.forms import PostForm, CommentForm
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -14,9 +14,20 @@ class HomePageView(View):
 
 
 class PostView(View):
+    form_comment = CommentForm
+
     def get(self, request, **kwargs):
         post = Post.objects.get(id=kwargs['post_id'])
-        return render(request, 'home/postpage.html', {"post": post})
+        pcomment =post.pcomment.all()
+        return render(request, 'home/postpage.html', {"post": post, 'pcomment': pcomment, 'form': self.form_comment})
+
+    def post(self, request, **kwargs):
+        pass
+        # form = self.form_comment(request.POST)
+        # if form.is_valid():
+        #     post = Post.objects.get(id=kwargs['post_id'])
+        #     comment = Comment(user=request.user, post=post, body=form.cleaned_data['body'])
+        #     comment.save()
 
 
 class PostCreateView(LoginRequiredMixin, View):

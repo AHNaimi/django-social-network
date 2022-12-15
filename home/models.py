@@ -12,3 +12,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('home:postpage', args=(self.id, self.post_slug))
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='user_comment')
+    body = models.TextField(max_length=100)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='pcomment')
+
