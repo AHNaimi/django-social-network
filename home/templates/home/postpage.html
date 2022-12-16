@@ -8,11 +8,13 @@
    time of publish: {{post.created_time}}<br>
 </div>
 <h2>comments</h2>
-{% for x in comment %}
+{% for x in pcomment %}
 <div style="padding:10px;border-color:black;">
-{{x.user}}
-{{x.body}}
+
+from : {{x.user}}<br>
+comment : {{x.body}}
 </div>
+<hr>
 {% endfor %}
 {% if request.user.is_authenticated %}
 <div style="background-color:grey;">

@@ -18,8 +18,8 @@ class PostView(View):
 
     def get(self, request, **kwargs):
         post = Post.objects.get(id=kwargs['post_id'])
-        pcomment =post.pcomment.all()
-        return render(request, 'home/postpage.html', {"post": post, 'pcomment': pcomment, 'form': self.form_comment})
+        post_comment = post.pcomment.all()
+        return render(request, 'home/postpage.html', {"post": post, 'pcomment': post_comment, 'form': self.form_comment})
 
     def post(self, request, **kwargs):
         pass
