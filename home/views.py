@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from home.models import Post, Comment
-from home.forms import PostForm, CommentForm
+from home.forms import PostForm, CommentForm, PostUpdateForm
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from accounts.models import UserModel
 from django.http import HttpResponse
+
+
 class HomePageView(View):
     def get(self, request):
         post = Post.objects.all()
@@ -78,3 +80,22 @@ class PostDeleteView(LoginRequiredMixin,View):
             post_remain = Post.objects.filter(user=user)
             return render(request, 'home/mypost.html', {'posts': post_remain})
         return redirect('home:homepage')
+
+
+class PostUpdateView(View):
+    form_class = PostUpdateForm
+
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        form = self.form_class(instance=post)
+        return render(request, 'home/postupdate.html', {'form': form})
+
+    def post(self, request, post_id):
+        form = self.form_class(request.POST)
+        post = Post.objects.get(id=post_id)
+        if form.is_valid():
+            post.body = form.cleaned_data['body']
+            post.save()
+            messages.success(request, 'post updated successfully')
+            return redirect('home:homepage')
+
