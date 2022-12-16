@@ -6,8 +6,8 @@ from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
-
+from accounts.models import UserModel
+from django.http import HttpResponse
 class HomePageView(View):
     def get(self, request):
         post = Post.objects.all()
@@ -51,3 +51,30 @@ class PostCreateView(LoginRequiredMixin, View):
             post.save()
             messages.success(request, 'your post created successfully')
             return redirect('home:homepage')
+        return render(request, 'home/postcreate.html', {'form': form})
+
+
+class MyPostView(View):
+    def get(self, request):
+        user = request.user
+        if user is None:
+            messages.INFO(request, 'you have to login')
+            return redirect('home:homepage')
+        else:
+            post = Post.objects.filter(user=user)
+            # if post :
+            return render(request, 'home/mypost.html', {'posts': post})
+            # else:
+            #     return render(request, 'home/mypost.html', {'posts': post})
+
+
+class PostDeleteView(LoginRequiredMixin,View):
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        if request.user.id == post.user.id:
+            post.delete()
+            messages.success(request, 'post deleted')
+            user = request.user
+            post_remain = Post.objects.filter(user=user)
+            return render(request, 'home/mypost.html', {'posts': post_remain})
+        return redirect('home:homepage')

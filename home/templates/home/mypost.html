@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+{% if posts %}
+{% for post in posts %}
+<div style="padding:10px;border-color:black;">
+  title :   {{post.title}}<br>
+  body:  {{post.body}}<br>
+  <hr>
+    <br>
+   <a style="padding:10px;border:black;background-color:red;" href="{% url 'home:deletepost' post.id %}"><b>Delete</b></a><br><br>
+
+   time of publish: {{post.created_time}}<br>
+</div>
+{% endfor %}
+{% else %}
+<p> have not any post</P>
+{% endif %}
+{% endblock %}

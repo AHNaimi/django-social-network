@@ -11,7 +11,10 @@ class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-            ordering = ('-created_time',)
+        ordering = ('-created_time',)
+
+    def __str__(self):
+        return str(self.id)
 
     def get_absolute_url(self):
         return reverse('home:postpage', args=(self.id, self.post_slug))
@@ -25,4 +28,3 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-create_time',)
-

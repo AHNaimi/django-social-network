@@ -8,6 +8,7 @@
         {% if request.user.is_authenticated %}
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:logout' %}">logout </a> </li>
         <li style="display:inline;padding:10px;"> <a href="{% url 'home:postcreatepage' %}">make post</a> </li>
+        <li style="display:inline;padding:10px;"> <a href="{% url 'home:mypostpage' %}">my posts</a> </li>
         {% else %}
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:registerpage' %}">register </a> </li>
         <li style="display:inline;padding:10px;"> <a href="{% url 'accounts:loginpage' %}">login </a> </li>
