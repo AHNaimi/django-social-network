@@ -22,12 +22,16 @@ class PostView(View):
         return render(request, 'home/postpage.html', {"post": post, 'pcomment': post_comment, 'form': self.form_comment})
 
     def post(self, request, **kwargs):
-        pass
-        # form = self.form_comment(request.POST)
-        # if form.is_valid():
-        #     post = Post.objects.get(id=kwargs['post_id'])
-        #     comment = Comment(user=request.user, post=post, body=form.cleaned_data['body'])
-        #     comment.save()
+        form = self.form_comment(request.POST)
+        post = Post.objects.get(id=kwargs['post_id'])
+        post_comment = post.pcomment.all()
+        if form.is_valid():
+            post = Post.objects.get(id=kwargs['post_id']).ordered_by
+            comment = Comment(user=request.user, post=post, body=form.cleaned_data['body'])
+            comment.save()
+            messages.success(request, ' your comment was made successfully')
+            redirect('home:homepage')
+        return render(request, 'home/postpage.html', {"post": post, 'pcomment': post_comment, 'form': form})
 
 
 class PostCreateView(LoginRequiredMixin, View):
