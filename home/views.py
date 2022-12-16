@@ -5,6 +5,7 @@ from home.forms import PostForm, CommentForm
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 
 class HomePageView(View):
@@ -19,18 +20,20 @@ class PostView(View):
     def get(self, request, **kwargs):
         post = Post.objects.get(id=kwargs['post_id'])
         post_comment = post.pcomment.all()
-        return render(request, 'home/postpage.html', {"post": post, 'pcomment': post_comment, 'form': self.form_comment})
+        permission_comment = request.user != post.user
+        return render(request, 'home/postpage.html',
+                      {"post": post, 'pcomment': post_comment, 'form': self.form_comment, 'per_com': permission_comment})
 
     def post(self, request, **kwargs):
         form = self.form_comment(request.POST)
         post = Post.objects.get(id=kwargs['post_id'])
         post_comment = post.pcomment.all()
         if form.is_valid():
-            post = Post.objects.get(id=kwargs['post_id']).ordered_by
+            post = Post.objects.get(id=kwargs['post_id'])
             comment = Comment(user=request.user, post=post, body=form.cleaned_data['body'])
             comment.save()
             messages.success(request, ' your comment was made successfully')
-            redirect('home:homepage')
+            return HttpResponseRedirect(self.request.path_info)
         return render(request, 'home/postpage.html', {"post": post, 'pcomment': post_comment, 'form': form})
 
 

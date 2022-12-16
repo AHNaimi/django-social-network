@@ -21,4 +21,8 @@ class Comment(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='user_comment')
     body = models.TextField(max_length=100)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='pcomment')
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-create_time',)
 

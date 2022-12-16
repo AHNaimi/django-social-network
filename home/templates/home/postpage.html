@@ -17,7 +17,7 @@ comment : {{x.body}}
 <hr>
 {% endfor %}
 <hr>
-{% if request.user.is_authenticated %}
+{% if request.user.is_authenticated and post.user != request.user %}
 <div style="background-color:grey;">
 <form style="padding:20px;" action="" method="post">
     <p>make your comment</p>
@@ -30,6 +30,6 @@ comment : {{x.body}}
 </div>
 {% else %}
 <br>
-you have to login for make your comment
+you can not make comment : please login or make sure that it is not your post
 {% endif %}
 {% endblock body %}
