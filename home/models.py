@@ -9,6 +9,7 @@ class Post(models.Model):
     post_slug = models.SlugField()
     body = models.TextField(max_length=200)
     created_time = models.DateTimeField(auto_now_add=True)
+
     class Meta:
             ordering = ('-created_time',)
 
