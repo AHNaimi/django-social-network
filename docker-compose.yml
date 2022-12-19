@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: postgres_con
+    image: postgres:latest
+    networks:
+      - net
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  django:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn A.wsgi -b 0.0.0.0:8000"
+    container_name: django_con
+    volumes:
+      - .:/src/
+    depends_on:
+      - postgres
+    expose:
+      - "8000"
+    networks:
+      - net
+    restart: on-failure
+
+
+  nginx:
+    container_name: nginx_con
+    command: nginx -g 'daemon off;'
+    depends_on:
+      - django
+    image: nginx:latest
+    networks:
+      - net
+    ports:
+      - "80:80"
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+  
+ networks:
+   net:
+
+ volumes:
+   postgres_data
